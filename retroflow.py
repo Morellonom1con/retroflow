@@ -59,9 +59,37 @@ for project in projects:
             print(f"      No retrospective documents")
             continue
 
+        full_retros = []
+
+        for retro in retros:
+            doc_id = retro.get("id")
+
+            if not doc_id:
+                continue
+
+            doc_url = f"{BASE_EXT}/_apis/ExtensionManagement/InstalledExtensions/ms-devlabs/team-retrospectives/Data/Scopes/Default/Current/Collections/{team_id}/Documents/{doc_id}?api-version=7.0-preview.1"
+
+            doc_response = requests.get(doc_url, auth=auth)
+
+            if doc_response.status_code != 200:
+                print(f"        Failed to fetch entries for doc {doc_id}")
+                continue
+
+            full_doc = doc_response.json()
+
+            # This already contains: team, board, items
+            full_retros.append(full_doc)
+
+        if not full_retros:
+            print(f"      No valid retros retrieved")
+            continue
+
         team_export = {
-            "team": team,
-            "retrospectives": retros
+            "projectName": project_name,
+            "projectId": project_id,
+            "teamName": team_name,
+            "teamId": team_id,
+            "retrospectives": full_retros
         }
 
         safe_team_name = re.sub(r'[\\/*?:"<>|]', "_", team_name)
