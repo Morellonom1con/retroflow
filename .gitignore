@@ -1,2 +1,17 @@
+# Virtual environments
 venv/
+
+# Environment files
 .env
+
+# Build outputs
+build/
+dist/
+
+# Python cache / bytecode
+__pycache__/
+*.py[cod]
+
+# Editor settings
+.vscode/
+.idea/

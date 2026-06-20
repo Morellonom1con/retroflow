@@ -1,3 +1,4 @@
+import sys
 import requests
 from requests.auth import HTTPBasicAuth
 import json
@@ -5,9 +6,13 @@ import re
 import os
 from dotenv import load_dotenv
 
-load_dotenv()
+base_path = os.path.dirname(sys.executable) if getattr(sys, 'frozen', False) else os.path.dirname(os.path.abspath(__file__))
 
-OUTPUT_FOLDER = "/home/bhargav/Downloads/Retro_files"
+env_path = os.path.join(base_path, '.env')
+
+load_dotenv(env_path)
+
+OUTPUT_FOLDER = os.path.join(os.path.expanduser("~"), "Downloads", "Retro_files")
 os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 
 
@@ -124,12 +129,14 @@ fetch_retro_data(
 fetch_retro_data(
     org="ab-inbev",
     pat_env_var="PAT_tsc",
-    needed_projects=["ABI-SupplyChain-GlobalTechHub"],
+    needed_projects=["ABI-SupplyChain-GlobalTechHub","Tech Supply","GHQ_Solutions_One_Tech_Portfolio_And_Program"],
     needed_teams=[
         "BrewHub Squad",
         "Data Management Systems and DVPO SQUAD",
         "DATA Omnia SQUAD",
-        "Data Reliability SQUAD"
+        "Data Reliability SQUAD",
+        "Global Supply - BI and SDL - Portfolio and Performance",
+        "Global One Tech Supply Portfolio"
     ]
 )
 
